@@ -8,5 +8,3 @@ Please note that rui.h is in /common header now and add it in your app catalogue
 
 After you prepare your Application and want to compile a customized firmware by yourself, you can use RUI online compiler.
 
-[http://18.166.76.71](http://18.166.76.71) 
-
