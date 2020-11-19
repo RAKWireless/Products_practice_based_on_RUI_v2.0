@@ -743,7 +743,7 @@ RUI_RETURN_STATUS rui_lora_set_class(RUI_LORA_CLASS_MODE class);
 /***************************************************************************************
  * @brief       This API is used to set the send data type.
  * @return      RUI_RETURN_STATUS
- * @param       uint8_t is_confirm: 0-unconfirm,1-confirm,2-proprietary
+ * @param       uint8_t is_confirm: 0-unconfirm,1-confirm
 ***************************************************************************************/
 RUI_RETURN_STATUS rui_lora_set_confirm(uint8_t is_confirm);
 
@@ -858,28 +858,13 @@ RUI_RETURN_STATUS rui_ble_evt_register_callback(ble_evt_connect callback1, ble_e
 void rui_ble_rx_data_notify(uint8_t *pdata, uint16_t len);
 
 /***************************************************************************************
- * @brief       This API is used to handle read operation data receive from ble peripheral.
- * @return      NULL
- * @param       uint8_t *pdata: the pointer of receive data.
-                uint16_t len:   the lengh of receive data.
-***************************************************************************************/
-void rui_ble_rx_data_read(uint8_t *pdata, uint16_t len);
-
-/***************************************************************************************
- * @brief       This API is used to write data to write_handle which in peripheral via ble.
+ * @brief       This API is used to write data to peripheral via ble.
  * @return      RUI_RETURN_STATUS
- * @param       BLE_CLIENT * p_ble_rcs_c:  ble_rcs_c instances which is m_rcs_c[i] in multiple link.
-                uint8_t *pdata:  the pointer of transmit data.
+ * @param       uint8_t *pdata:  the pointer of transmit data.
                 uint16_t len:  the lengh of transmit data.
 ***************************************************************************************/
-RUI_RETURN_STATUS rui_ble_tx_data_write(BLE_CLIENT * p_ble_rcs_c, uint8_t *pdata, uint16_t len);
+RUI_RETURN_STATUS rui_ble_tx_data_write(uint8_t *pdata, uint16_t len);
 
-/***************************************************************************************
- * @brief       This API is used to write data to read_notify_handle which in peripheral via ble.
- * @return      RUI_RETURN_STATUS
- * @param       BLE_CLIENT * p_ble_rcs_c:  ble_rcs_c instances which is m_rcs_c[i] in multiple link.
-***************************************************************************************/
-RUI_RETURN_STATUS rui_ble_tx_data_read(BLE_CLIENT * p_ble_rcs_c);
 #endif
 
 /***************************************************************************************
