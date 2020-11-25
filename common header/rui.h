@@ -812,6 +812,13 @@ RUI_RETURN_STATUS rui_lora_get_status(bool IsPrint,RUI_LORA_STATUS_T *status);
 ***************************************************************************************/
 RUI_RETURN_STATUS rui_get_channel_list(void);
 
+/***************************************************************************************
+ * @brief       This API is used to print the channel information of the specified ID.
+ * @return      RUI_RETURN_STATUS
+ * @param       uint32_t chan_id: the channel ID
+***************************************************************************************/
+RUI_RETURN_STATUS rui_get_channel(uint32_t chan_id);
+
 #ifdef SOFTDEVICE_PRESENT
 /***************************************************************************************
  * @brief       This API is used to set the work mode of BLE.
