@@ -444,6 +444,7 @@ static void atcmd_help(int argc, char *argv[])
     RUI_LOG_PRINTF("  at+send=lora:X:YYY\r\n");
     RUI_LOG_PRINTF("  at+set_config=lora:region:XXX\r\n");
     RUI_LOG_PRINTF("  at+get_config=lora:channel\r\n");    
+    RUI_LOG_PRINTF("  at+get_config=lora:channel:X\r\n");    
     RUI_LOG_PRINTF("  at+set_config=lora:dev_eui:XXXX\r\n");
     RUI_LOG_PRINTF("  at+set_config=lora:app_eui:XXXX\r\n");
     RUI_LOG_PRINTF("  at+set_config=lora:app_key:XXXX\r\n");
@@ -500,22 +501,38 @@ static void atcmd_test(int argc, char *argv[])
         else
             ch++;
     }
-    if(strcmp(argv[1],"sleep_delay")!=0)
+
+    // at+test=sleep_delay:5
+    if(strcmp(argv[1],"sleep_delay") ==0)
     {
-        RUI_LOG_PRINTF("ERROR: %d\r\n",RUI_AT_PARAMETER_INVALID);
+        if((atoi(argv[2])>30) || (atoi(argv[2])<=0))
+        {
+            RUI_LOG_PRINTF("ERROR: %d\r\n",RUI_AT_PARAMETER_INVALID);
+            return ;   
+        }else
+        {
+            RUI_LOG_PRINTF("Device will sleep after %ds.\r\nPlease disconnect the connector of the module pin.\r\n",atoi(argv[2]));
+            DelayMs(atoi(argv[2])*1000);
+            rui_device_sleep(1);
+        }
+    }
+
+    // at+test=crystal_check
+    else if (strcmp(argv[1],"crystal_check") ==0)
+    {
+        uint32_t tick = rui_crystal_check();
+        if ((tick < 950) || (1050 < tick))
+            RUI_LOG_PRINTF("Crystal check failed.\r\n", tick);
+        else
+            RUI_LOG_PRINTF("Crystal check success. Tick is %dms.\r\n", tick);
+    }
+    else
+    {
+        RUI_LOG_PRINTF("ERROR: %d\r\n",RUI_AT_UNSUPPORT);
         return ;          
+
     }
     
-    if((atoi(argv[2])>30) || (atoi(argv[2])<=0))
-    {
-        RUI_LOG_PRINTF("ERROR: %d\r\n",RUI_AT_PARAMETER_INVALID);
-        return ;   
-    }else
-    {
-        RUI_LOG_PRINTF("Device will sleep after %ds.\r\nPlease disconnect the connector of the module pin.\r\n",atoi(argv[2]));
-        DelayMs(atoi(argv[2])*1000);
-        rui_device_sleep(1);
-    }
 }
 
 

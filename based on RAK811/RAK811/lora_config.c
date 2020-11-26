@@ -159,7 +159,7 @@ static int read_config_string(RUI_LORA_STATUS_T *config, const char *in)
                 RUI_LOG_PRINTF("ERROR: %d\r\n",RUI_AT_PARAMETER_INVALID);
                 return FAIL ;
             }
-        }else if (argc != 2) 
+        }else if (argc != 2 && argc != 3)
         {
             RUI_LOG_PRINTF("ERROR: %d\r\n",RUI_AT_PARAMETER_INVALID);
             return FAIL ;
@@ -723,13 +723,44 @@ static uint32_t handle_lora_get(RUI_LORA_STATUS_T *config, int argc, char *argv[
    switch(cmd_str[i].board_enum)
     {
         // at+get_config=lora:channel
+        // at+get_config=lora:channel:<channel_id>
         case channel:
             if (g_lora_config.work_mode != LORAWAN)
             {
                 RUI_LOG_PRINTF("ERROR: %d\r\n",RUI_AT_LORA_SERVICE_UNKNOWN);
                 return FAIL ;
             }
-            rui_return_status = rui_get_channel_list();
+
+            if (argc == 1)
+            {
+                rui_return_status = rui_get_channel_list();
+            }
+            else
+            {
+                if(verify_isdigit(argv[1],strlen(argv[1]))==FAIL)
+                {
+                    RUI_LOG_PRINTF("ERROR: %d\r\n",RUI_AT_PARAMETER_INVALID);
+                    return FAIL ;
+                }
+                
+                uint32_t channel_id = atoi(argv[1]);
+                if (channel_id < 10)
+                {
+                    if(verify_param_len(argv[1], 1) == FAIL)
+                        return FAIL;
+                }
+                else
+                {
+                    if(verify_param_len(argv[1], 2) == FAIL)
+                        return FAIL;
+                }
+
+                rui_return_status = rui_get_channel(atoi(argv[1]));
+            }
+
+            if (RUI_STATUS_OK != rui_return_status)
+                RUI_LOG_PRINTF("ERROR: %d\r\n", RUI_AT_PARAMETER_INVALID);
+
             break;
 
         // at+get_config=lora:status

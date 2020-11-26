@@ -236,6 +236,7 @@ void at_response_help(void)
     uart_log_printf("  at+send=lora:X:YYY\r\n");
     uart_log_printf("  at+set_config=lora:region:XXX\r\n");
     uart_log_printf("  at+get_config=lora:channel\r\n");
+    uart_log_printf("  at+get_config=lora:channel:X\r\n");
     uart_log_printf("  at+set_config=lora:dev_eui:XXXX\r\n");
     uart_log_printf("  at+set_config=lora:app_eui:XXXX\r\n");
     uart_log_printf("  at+set_config=lora:app_key:XXXX\r\n");
@@ -260,7 +261,7 @@ void at_response_help(void)
     uart_log_printf("  at+set_config=lora:send_repeat_cnt:X\r\n");   
     uart_log_printf("\r\n");
 
-    uart_log_printf("LoRaP2P AT commands:\r\n");
+    uart_log_printf("LoRa P2P AT commands:\r\n");
     uart_log_printf("  at+set_config=lorap2p:XXX:Y:Z:A:B:C\r\n");
     uart_log_printf("  at+set_config=lorap2p:transfer_mode:X\r\n");
     uart_log_printf("  at+send=lorap2p:XXX\r\n");
@@ -803,6 +804,37 @@ void at_parse(char *cmd)
         }
 
         rui_get_channel_list();  // print lora channel list via uart
+        return;
+    }
+
+    // at+get_config=lora:channel:X
+    if(strstr(cmd,"at+get_config=lora:channel:") != NULL)
+    {
+        if (g_rui_cfg_t.g_lora_cfg_t.work_mode != RUI_LORAWAN)  // LoRaWAN support only
+        {
+            rui_at_response(false, NULL, RUI_AT_LORA_SERVICE_UNKNOWN);
+            return ;
+        }
+
+        at_param_location(cmd, "channel:", &ptr);
+        uint32_t channel_id = atoi(ptr);
+
+        if (channel_id < 10)
+        {
+            if (false == at_param_digital_verify(ptr, 1))
+                return ;
+        }
+        else
+        {
+            if (false == at_param_digital_verify(ptr, 2))
+                return ;
+        }
+
+        ret_code = rui_get_channel(channel_id);
+        if (ret_code != RUI_STATUS_OK) {
+            rui_at_response(false, NULL, RUI_AT_PARAMETER_INVALID);
+        }
+
         return;
     }
 
@@ -1677,6 +1709,17 @@ void at_parse(char *cmd)
         rui_delay_ms(delay_time*1000);
         rui_device_sleep(1);
 
+        return;
+    }
+
+    // at+test=crystal_check
+    if(strstr(cmd,"at+test=crystal_check")!= 0)
+    {
+        uint32_t tick = rui_crystal_check();
+        if ((tick < 950) || (1050 < tick))
+            uart_log_printf("Crystal check failed.\r\n", tick);
+        else
+            uart_log_printf("Crystal check success. Tick is %dms.\r\n", tick);
         return;
     }
 

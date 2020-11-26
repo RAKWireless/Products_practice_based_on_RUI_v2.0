@@ -202,11 +202,11 @@ void main(void)
             RUI_LOG_PRINTF_MERGE("Current work_mode:P2P\r\n");
             if (g_rui_cfg_t.g_lora_p2p_cfg_t.p2p_workmode == 1)
             {
-                RUI_LOG_PRINTF_MERGE("LoRaP2P Transfer_mode: Receiver\r\n");
+                RUI_LOG_PRINTF_MERGE("LoRa P2P Transfer_mode: Receiver\r\n");
             }
             else
             {
-                RUI_LOG_PRINTF_MERGE("LoRaP2P Transfer_mode: Sender\r\n");
+                RUI_LOG_PRINTF_MERGE("LoRa P2P Transfer_mode: Sender\r\n");
             }
 			break;
 

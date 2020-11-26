@@ -213,7 +213,7 @@ void main(void)
 			break;
 		default: break;
 	}   
-    RUI_LOG_PRINTF("Initialization OK\r\n\r\n");
+    RUI_LOG_PRINTF("Initialization OK\r\n");
 
     while(1)
     {       
