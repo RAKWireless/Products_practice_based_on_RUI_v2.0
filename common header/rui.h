@@ -1043,22 +1043,22 @@ void rui_running(void);
 void rui_lora_autosend_callback(void);
 
 /***************************************************************************************
- * @brief       This API is used to write user data to flash.
+ * @brief       This API is flash write and read.
  * @return      RUI_RETURN_STATUS
  * @param       uint8_t *str
-                uint32_t len: max 128 bytes for STM series; max 64K bytes for Nordic series
+                uint8_t len: should less than 128 byte
                 RUI_FLASH_MODE mode: user data or origin data
 ***************************************************************************************/
-RUI_RETURN_STATUS rui_flash_write(RUI_FLASH_MODE mode, uint8_t *str, uint32_t len);
+RUI_RETURN_STATUS rui_flash_write(RUI_FLASH_MODE mode, uint8_t *str, uint8_t len);
 
 /***************************************************************************************
- * @brief       This API is used to read user data from flash.
+ * @brief       This API is auto send data timeout callback by lora.
  * @return      RUI_RETURN_STATUS
  * @param       uint8_t *str
-                uint32_t len: max 128 bytes for STM series; max 64K bytes for Nordic series
+                uint8_t len: should less than 128 byte
                 RUI_FLASH_MODE mode: user data or origin data
 ***************************************************************************************/
-RUI_RETURN_STATUS rui_flash_read(RUI_FLASH_MODE mode,uint8_t *str, uint32_t len);
+RUI_RETURN_STATUS rui_flash_read(RUI_FLASH_MODE mode,uint8_t *str, uint8_t len);
 
 /***************************************************************************************
  * @brief       This API is used to return info for user defined AT,
