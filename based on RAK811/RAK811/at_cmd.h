@@ -26,8 +26,6 @@ static void lora_write_config(int argc, char *argv[]);
 static void lora_send(int argc, char *argv[]);
 static void lora_region(int argc, char *argv[]);
 static void atcmd_help(int argc, char *argv[]);
-static void atcmd_test(int argc, char *argv[]);
-
 
 
 #endif

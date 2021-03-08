@@ -34,25 +34,7 @@ typedef enum
     dr,
     tx_power,
     adr,
-    send_interval,
-    multicastenable,
-    multicast_dev_addr,
-    multicast_apps_key,
-    multicast_nwks_key,
-
-    sys_dev_eui,
-    sys_app_eui,
-    sys_app_key,
-    sys_dev_addr,
-    sys_apps_key,
-    sys_nwks_key,
-    sys_multicast_dev_addr,
-    sys_multicast_apps_key,
-    sys_multicast_nwks_key,
-    default_parameters,
-    dutycycle_enable,
-    join_repeat_cnt,
-    send_repeat_cnt
+    send_interval
 }board_config_Enum;
 
 typedef enum DRIVER_MODE
